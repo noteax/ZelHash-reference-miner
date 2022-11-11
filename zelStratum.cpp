@@ -202,6 +202,24 @@ void zelStratum::readStratum(const boost::system::error_code& err) {
 					exit(0);
 				} else {
 					cout << "Worker authorized: " << user << endl;
+
+					string json = "{\"id\": 3, \"method\": \"mining.extranonce.subscribe\", \"params\": []}\n";
+					queueDataSend(json);
+				}
+			}
+
+			// Reply to extra nonce subscribe
+			if (id == 2) {
+				int exists = jsonTree.count("result");
+				bool extraNonceSubscribed = false;
+				if (exists > 0) {
+					extraNonceSubscribed = jsonTree.get<bool>("result");
+				}
+
+			       	if (!extraNonceSubscribed) {
+					cout << "Failed to subscribe for extra nonce" << endl;
+				} else {
+					cout << "Extra nonce subscribe succeeded" << user << endl;
 				}
 			}
 
@@ -255,8 +273,16 @@ void zelStratum::readStratum(const boost::system::error_code& err) {
 				cout << "Solutions (A/R): " << sharesAcc << " / " << sharesRej << " Uptime: " << (int)(t_current-t_start) << " sec" << endl; 
 			}
 
-			
+			// We got a new extra nonce
+			if (method.compare("mining.set_extranonce") == 0) {
+				updateMutex.lock();
+				string extraNonceStr = element_at<string>(jsonTree, "params", 0);
+				poolNonce = parseHex(extraNonceStr);
+				preComputeBlake();
+				updateMutex.unlock();
 
+				cout << "Extra nonce received: " << extraNonceStr << endl; 
+			}
 		} catch(const pt::ptree_error &e) {
 			cout << "Json parse error: " << e.what() << endl; 
 		}
