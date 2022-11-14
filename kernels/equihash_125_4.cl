@@ -98,8 +98,8 @@ __kernel void round0(
 
 	uint tId = get_global_id(0);
 
-	ulong word1 = ((ulong)tId << 32) | nonce;
-       	ulong v[16];
+	ulong word1 = ((ulong)tId << 56) | ((ulong) nonce << 24);
+    ulong v[16];
 
 	// init vector v
 	v[0] = blake_state.s0;
@@ -231,13 +231,13 @@ __kernel void round0(
 	gFunc(v[2], v[7], v[8],  v[13], 0, 0);
 	gFunc(v[3], v[4], v[9],  v[14], 0, 0);
 
-        v[0] = v[0] ^ blake_state.s0 ^ v[8];
-        v[1] = v[1] ^ blake_state.s1 ^ v[9];
-        v[2] = v[2] ^ blake_state.s2 ^ v[10];
-        v[3] = v[3] ^ blake_state.s3 ^ v[11];
-        v[4] = v[4] ^ blake_state.s4 ^ v[12];
-        v[5] = v[5] ^ blake_state.s5 ^ v[13];
-        v[6] = v[6] ^ blake_state.s6 ^ v[14];
+    v[0] = v[0] ^ blake_state.s0 ^ v[8];
+    v[1] = v[1] ^ blake_state.s1 ^ v[9];
+    v[2] = v[2] ^ blake_state.s2 ^ v[10];
+    v[3] = v[3] ^ blake_state.s3 ^ v[11];
+    v[4] = v[4] ^ blake_state.s4 ^ v[12];
+    v[5] = v[5] ^ blake_state.s5 ^ v[13];
+    v[6] = v[6] ^ blake_state.s6 ^ v[14];
 	v[7] = v[7] ^ blake_state.s7 ^ v[15]; 
 
 	uint8 output;

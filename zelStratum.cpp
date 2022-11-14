@@ -216,7 +216,7 @@ void zelStratum::readStratum(const boost::system::error_code& err) {
 					extraNonceSubscribed = jsonTree.get<bool>("result");
 				}
 
-			       	if (!extraNonceSubscribed) {
+			    if (!extraNonceSubscribed) {
 					cout << "Failed to subscribe for extra nonce" << endl;
 				} else {
 					cout << "Extra nonce subscribe succeeded" << user << endl;
@@ -280,6 +280,8 @@ void zelStratum::readStratum(const boost::system::error_code& err) {
 				poolNonce = parseHex(extraNonceStr);
 				preComputeBlake();
 				updateMutex.unlock();
+
+				// need to update kernels here
 
 				cout << "Extra nonce received: " << extraNonceStr << endl; 
 			}
