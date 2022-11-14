@@ -216,7 +216,7 @@ void zelStratum::readStratum(const boost::system::error_code& err) {
 					extraNonceSubscribed = jsonTree.get<bool>("result");
 				}
 
-			    if (!extraNonceSubscribed) {
+				if (!extraNonceSubscribed) {
 					cout << "Failed to subscribe for extra nonce" << endl;
 				} else {
 					cout << "Extra nonce subscribe succeeded" << user << endl;
@@ -435,7 +435,13 @@ bool zelStratum::testSolution(const vector<uint32_t>& indices, WorkDescription& 
 	fullHeader.push_back((uint8_t) 52);
 
 	// Add the solution
-	fullHeader.insert(fullHeader.end(), compressed.begin(), compressed.end());		
+	fullHeader.insert(fullHeader.end(), compressed.begin(), compressed.end());
+
+	stringstream fullHeaderStream;
+	for (int c=0; c<fullHeader.size(); c++) {
+		fullHeaderStream << std::setfill('0') << std::setw(2) << std::hex << (unsigned) fullHeader[c];
+	}
+	cout << "Full header is: " << fullHeaderStream.str() << endl;
 
 	// Double sha-256
 	vector<uint8_t> hash0;
