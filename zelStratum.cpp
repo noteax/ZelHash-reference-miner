@@ -429,7 +429,7 @@ bool zelStratum::testSolution(const vector<uint32_t>& indices, WorkDescription& 
 		poolNonceStream << std::setfill('0') << std::setw(2) << std::hex << (unsigned) poolNonce[c];
 	}
 
-	cout << "Pool nonce is: " << poolNonceStream.str() << endl;
+	//cout << "Pool nonce is: " << poolNonceStream.str() << endl;
 
 	// Solution Nonce
 	uint32_t* noncePoint = (uint32_t*) &fullHeader.data()[fullHeader.size()-4];
@@ -445,7 +445,7 @@ bool zelStratum::testSolution(const vector<uint32_t>& indices, WorkDescription& 
 	for (int c=0; c<fullHeader.size(); c++) {
 		fullHeaderStream << std::setfill('0') << std::setw(2) << std::hex << (unsigned) fullHeader[c];
 	}
-	cout << "Full header is: " << fullHeaderStream.str() << endl;
+	//cout << "Full header is: " << fullHeaderStream.str() << endl;
 
 	// Double sha-256
 	vector<uint8_t> hash0;
