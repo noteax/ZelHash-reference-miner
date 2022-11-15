@@ -52,8 +52,10 @@ void clHost::loadAndCompileKernel(cl::Device &device, uint32_t pl, bool use3G) {
 	// reading the kernel
 	//string progStr = string((const char*) __equihash_125_4_cl, __equihash_125_4_cl_len);
 
-	ifstream file("./kernels/equihash_150_5.cl");
+	ifstream file("./kernels/equihash_125_4.cl");
 	string progStr(istreambuf_iterator<char>(file),(istreambuf_iterator<char>()));
+	cout << " KERNEL SOURCE: " << endl;
+	cout << progStr.c_str() << endl;
 	cl::Program::Sources source(1,std::make_pair(progStr.c_str(), progStr.length()+1));
 
 	// Create a program object and build it
