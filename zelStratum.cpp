@@ -306,7 +306,7 @@ bool zelStratum::hasWork() {
 void zelStratum::getWork(WorkDescription& wd, uint8_t* dataOut) {
 
 	// nonce is atomic, so every time we call this will get a nonce increased by one
-	uint32_t cliNonce = nonce.fetch_add(1);
+	uint32_t cliNonce = nonce.fetch_add(0x10000);
 	wd.nonce = cliNonce;  
 	
 	updateMutex.lock();
@@ -528,7 +528,7 @@ zelStratum::zelStratum(string hostIn, string portIn, string userIn, string passI
 	uniform_int_distribution<uint32_t> distribution(0,0xFFFFFFFF);
 
 	// We pick a random start nonce
-	nonce = distribution(generator);
+	nonce = distribution(generator) & 0xFFFF0000;
 
 	// No work in the beginning
 	workId = "-1";

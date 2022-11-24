@@ -96,7 +96,7 @@ __kernel void round0(
 		ulong8 blake_state,
 		uint nonce ) {
 
-	uint tId = 98;//get_global_id(0);
+	uint tId = get_global_id(0);
 
 	ulong word1 = ((ulong)tId << 32) | nonce;
     ulong v[16];
