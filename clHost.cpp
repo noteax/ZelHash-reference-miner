@@ -331,6 +331,12 @@ void clHost::startMining() {
 	while (restart) {
 		this_thread::sleep_for(std::chrono::seconds(15));
 
+
+		std::time_t time = std::time({});
+        char timeString[std::size("yyyy-mm-ddThh:mm:ssZ")];
+        std::strftime(std::data(timeString), std::size(timeString), "%FT%TZ", std::gmtime(&time));
+		cout << timeString << ": ";
+
 		// Print performance stats (roughly)
 		cout << "Performance: ";
 		uint32_t totalSols = 0;
